@@ -1,15 +1,15 @@
 package com.devmatheus.dslist.services;
 
-import java.util.List;
-
 import com.devmatheus.dslist.dto.GameDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.devmatheus.dslist.dto.GameMinDTO;
 import com.devmatheus.dslist.entities.Game;
+import com.devmatheus.dslist.projections.GameMinProjection;
 import com.devmatheus.dslist.repositories.GameRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class GameService {
@@ -27,5 +27,11 @@ public class GameService {
 	public List<GameMinDTO> findAll(){
 		List<Game> result = gameRepository.findAll();
 		return result.stream().map(x -> new GameMinDTO(x)).toList();
+	}
+
+	@Transactional(readOnly = true)
+	public List<GameMinDTO> findByGameList(Long listId) {
+		List<GameMinProjection> games = gameRepository.searchByList(listId);
+		return games.stream().map(GameMinDTO::new).toList();
 	}
 }
