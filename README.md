@@ -33,6 +33,7 @@
 - PostgreSQL
 - Docker
 - Docker Compose
+- Postman
 - Maven
 - Railway
 
